@@ -11,9 +11,7 @@ def main():
 
     window.show()
     application.exec_()
-
-def equ_test():
-    print("Hello EquTest!")
+    
 
 if __name__ == "__main__":
     main()
