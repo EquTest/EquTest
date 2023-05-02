@@ -43,8 +43,6 @@ class Menu(Window):
     def __init__(self):
         super().__init__()
 
-        self.__init_UI__()
-
     def __init_UI__(self) -> None:
         """Implementation for Menu Class"""
         ...
@@ -54,8 +52,6 @@ class Menu(Window):
 class StudentWindow(Window):
     def __init__(self):
         super().__init__()
-
-        self.__init_UI__()
 
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
@@ -67,8 +63,6 @@ class ProfessorWindow(Window):
     def __init__(self):
         super().__init__()
 
-        self.__init_UI__()
-
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
         ...
@@ -79,8 +73,6 @@ class AddTestWindow(Window):
     def __init__(self):
         super().__init__()
 
-        self.__init_UI__()
-
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
         ...
@@ -90,8 +82,6 @@ class AddTestWindow(Window):
 class StudentStatisticWindow(Window):
     def __init__(self):
         super().__init__()
-
-        self.__init_UI__()
 
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
