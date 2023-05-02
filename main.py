@@ -13,6 +13,6 @@ def main():
     application.exec_()
 
 
-if ___name___ == "__main__":
+if __name__ == "__main__":
     main()
 

@@ -1,6 +1,7 @@
 from typing import Any
 
 from answers import RightAnswer, WrongAnswer
+from users import Professor
 
 
 class Container:

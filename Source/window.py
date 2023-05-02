@@ -24,10 +24,11 @@ class Window(QtWidgets.QMainWindow):
         """Add the implementation"""
         ...
 
-    def _switch_windows_(self, another_window: QtWidgets.QMainWindow, *args, **kwargs) -> None:
+    def _switch_windows_(self, another_window: QtWidgets.QMainWindow, hide: bool = True) -> None:
         """Hide a current window and replace it by a caller"""
 
-        self.hide()
+        if hide:
+            self.hide()
         another_window.show()
 
     def __repr__(self) -> str:
@@ -62,6 +63,28 @@ class StudentWindow(Window):
 
 @singleton
 class ProfessorWindow(Window):
+    def __init__(self):
+        super().__init__()
+
+        self.__init_UI__()
+
+    def __init_UI__(self) -> None:
+        """Implementation for StudentWindow Class"""
+        ...
+
+
+class AddTestWindow(Window):
+    def __init__(self):
+        super().__init__()
+
+        self.__init_UI__()
+
+    def __init_UI__(self) -> None:
+        """Implementation for StudentWindow Class"""
+        ...
+
+
+class StudentStatisticWindow(Window):
     def __init__(self):
         super().__init__()
 
