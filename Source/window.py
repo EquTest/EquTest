@@ -15,6 +15,7 @@ def singleton(cls):
 
 class Window(QtWidgets.QMainWindow):
     """Interface for all window-like classes"""
+
     def __init__(self, *args, **kwargs):
         super().__init__()
 
@@ -73,6 +74,7 @@ class ProfessorWindow(Window):
         ...
 
 
+@singleton
 class AddTestWindow(Window):
     def __init__(self):
         super().__init__()
@@ -84,6 +86,7 @@ class AddTestWindow(Window):
         ...
 
 
+@singleton
 class StudentStatisticWindow(Window):
     def __init__(self):
         super().__init__()
