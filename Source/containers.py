@@ -15,6 +15,9 @@ class Container:
         if item not in self._items_:
             self._items_.append(item)
 
+    def __repr__(self) -> str:
+        return f"{self.__class__}(_name_: {self._name_}, _items_: {self._items_})"
+
 
 class Question(Container):
     def __init__(self, question_name: str, answers_list: list[RightAnswer | WrongAnswer]):
