@@ -31,7 +31,7 @@
 ### Діграма класів
 ![Діграма класів](ReadmeImages/uml_class_diagram.jpg "Рис 1. Діаграма класів")
 ### Діграма бази даних
-![Діграма бази даних](ReadmeImages/uml_class_diagram.jpg "Рис 2. Діграма бази даних")
+![Діграма бази даних](ReadmeImages/uml_database_diagram.jpg "Рис 2. Діграма бази даних")
 
 ## Корисні матеріали
 
