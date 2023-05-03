@@ -1,0 +1,5 @@
+HOST = "equtest-database.cow0ibdph0vh.eu-north-1.rds.amazonaws.com"
+DATABASE = "equtest-database"
+USER = "Tetiana"
+PORT = "5432"
+PASSWORD = "1357924680Uuu"
