@@ -5,7 +5,12 @@ from PyQt5.QtWidgets import QApplication
 from Source.window import Window
 
 
+from Database.database import Database
+
+
 def main():
+    database = Database()
+
     application = QApplication(sys.argv)
     window = Window()
 
