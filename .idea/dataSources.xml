@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="equtest_database@equtest-instance.cow0ibdph0vh.eu-north-1.rds.amazonaws.com" uuid="30243a0e-d99c-4439-aad4-ee6df46c3837">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://equtest-instance.cow0ibdph0vh.eu-north-1.rds.amazonaws.com:5432/equtest_database</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
