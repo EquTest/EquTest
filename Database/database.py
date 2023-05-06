@@ -17,5 +17,7 @@ class Database:
         )
         self.__cursor__ = self.__connection__.cursor()
 
+        print(f"Database {DATABASE} successfully connected")
+
         self.__cursor__.close()
         self.__connection__.close()

@@ -1,5 +1,5 @@
-HOST = "equtest.cow0ibdph0vh.eu-north-1.rds.amazonaws.com"
-DATABASE = "equtest"
+HOST = "equtest-instance.cow0ibdph0vh.eu-north-1.rds.amazonaws.com"
+DATABASE = "equtest_database"
 USER = "equtest"
 PORT = "5432"
 PASSWORD = "j1ypF9fnFsHkk4kUqUec"
