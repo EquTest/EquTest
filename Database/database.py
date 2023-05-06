@@ -24,6 +24,8 @@ class Database:
         self.__cursor__.close()
         self.__connection__.close()
 
+        print(f"Connection to {DATABASE} successfully closed")
+
     def get_tables(self):
         self.__cursor__.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
 
