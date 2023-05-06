@@ -19,5 +19,12 @@ class Database:
 
         print(f"Database {DATABASE} successfully connected")
 
+        self.__tables__ = self.get_tables()
+
         self.__cursor__.close()
         self.__connection__.close()
+
+    def get_tables(self):
+        self.__cursor__.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
+
+        return [table[0] for table in self.__cursor__.fetchall()]
