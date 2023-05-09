@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
 
 from Source.singleton import singleton
 from UI.Menu.menu_ui import UiMainWindow
@@ -44,6 +45,7 @@ class Menu(Window):
         self.__ui__.setupUi(self)
         self.__student_window__ = StudentWindow()
         self.__professor_window__ = ProfessorWindow()
+        self.__dialogue__ = RegisterWindow()
 
         self.__ui__.__button__.clicked.connect(self._check_enter_data_)
         
@@ -57,15 +59,30 @@ class Menu(Window):
             self._switch_windows_(self.__student_window__, False)  # change hide to True
         elif is_professor:
             self._switch_windows_(self.__professor_window__, False)  # change hide to True
+        else:
+            self.__dialogue__.show()
 
     def _check_user_(self, user_type: str) -> bool:
         user = self.__database__.get_users(user_type)
         login, password = self.__ui__.__login_field__.text(), self.__ui__.__password_field__.text()
 
-        print(login, password, user)
-
         return (login, password,) in user
 
+
+@singleton
+class RegisterWindow(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+
+        self.__init_UI__()
+
+    def __init_UI__(self) -> None:
+        """Add the UI"""
+        ...
+
+    def _add_user_(self) -> None:
+        """Adding the user to database"""
+        ...
 
 @singleton
 class StudentWindow(Window):
