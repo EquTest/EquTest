@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from Source.window import Window
+from Source.window import Menu
 
 
 from Database.database import Database
@@ -12,7 +12,7 @@ def main():
     database = Database()
 
     application = QApplication(sys.argv)
-    window = Window()
+    window = Menu()
 
     window.show()
     application.exec_()
