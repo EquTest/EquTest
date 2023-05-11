@@ -53,7 +53,7 @@ font-weight: 500;</string>
       <string>Акаунт не знайдено</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="__yes_button__">
+    <widget class="QPushButton" name="yes_button">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -75,7 +75,7 @@ font-weight: 400;</string>
       <string>Так</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="__no_button__">
+    <widget class="QPushButton" name="no_button">
      <property name="geometry">
       <rect>
        <x>340</x>

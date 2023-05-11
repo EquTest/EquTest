@@ -44,6 +44,12 @@ class Database:
 
         return self.__get_return__(self.__cursor__.fetchall())
 
+    def add_user(self, login: str, password: str) -> None:
+        print(f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
+        self.__cursor__.execute(f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
+        self.__connection__.commit()
+        print("Successfully.")
+
     @staticmethod
     def __get_return__(fetched: list[tuple[Any, ...]]) -> tuple[tuple, ...]:
         return tuple(tuple(item[0][1:-1].split(',')) for item in fetched)

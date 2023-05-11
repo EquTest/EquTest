@@ -33,25 +33,25 @@ class RegisterUI(object):
                                      "font-family: montserrat;\n"
                                      "font-weight: 500;")
         self.__title__.setObjectName("__title__")
-        self.__yes_button__ = QtWidgets.QPushButton(self.__background__1)
-        self.__yes_button__.setGeometry(QtCore.QRect(100, 210, 200, 50))
-        self.__yes_button__.setStyleSheet("border: 2px solid black;\n"
+        self.yes_button = QtWidgets.QPushButton(self.__background__1)
+        self.yes_button.setGeometry(QtCore.QRect(100, 210, 200, 50))
+        self.yes_button.setStyleSheet("border: 2px solid black;\n"
                                           "border-radius: 17px;\n"
                                           "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
                                           "\n"
                                           "font-size: 18px;\n"
                                           "font-family: montserrat;\n"
                                           "font-weight: 400;")
-        self.__yes_button__.setObjectName("__yes_button__")
-        self.__no_button__ = QtWidgets.QPushButton(self.__background__1)
-        self.__no_button__.setGeometry(QtCore.QRect(340, 210, 200, 50))
-        self.__no_button__.setStyleSheet("border: 2px solid black;\n"
+        self.yes_button.setObjectName("yes_button")
+        self.no_button = QtWidgets.QPushButton(self.__background__1)
+        self.no_button.setGeometry(QtCore.QRect(340, 210, 200, 50))
+        self.no_button.setStyleSheet("border: 2px solid black;\n"
                                          "border-radius: 17px;\n"
                                          "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
                                          "font-size: 18px;\n"
                                          "font-family: montserrat;\n"
                                          "font-weight: 400;")
-        self.__no_button__.setObjectName("__no_button__")
+        self.no_button.setObjectName("no_button")
         self.__account_title__ = QtWidgets.QLabel(self.__background__1)
         self.__account_title__.setGeometry(QtCore.QRect(190, 90, 255, 31))
         self.__account_title__.setStyleSheet("background: transparent;\n"
@@ -70,8 +70,8 @@ class RegisterUI(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EquTest"))
         self.__title__.setText(_translate("MainWindow", "Акаунт не знайдено"))
-        self.__yes_button__.setText(_translate("MainWindow", "Так"))
-        self.__no_button__.setText(_translate("MainWindow", "Ні"))
+        self.yes_button.setText(_translate("MainWindow", "Так"))
+        self.no_button.setText(_translate("MainWindow", "Ні"))
         self.__account_title__.setText(_translate("MainWindow", "бажаєте створити?"))
 
 

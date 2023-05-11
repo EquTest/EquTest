@@ -1,5 +1,4 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
 
 from Source.singleton import singleton
 from UI.Menu.menu_ui import MenuUI
@@ -49,24 +48,26 @@ class Menu(Window):
         self.__professor_window__ = ProfessorWindow()
         self.__dialogue__ = RegisterWindow()
 
-        self.__ui__.__button__.clicked.connect(self._check_enter_data_)
+        self.__ui__.button.clicked.connect(self._check_enter_data_)
 
     def _check_enter_data_(self) -> None:
         is_student = self._check_user_(STUDENT_TYPE)
         is_professor = self._check_user_(PROFESSOR_TYPE)
-
-        print(is_student, is_professor)
 
         if is_student:
             self._switch_windows_(self.__student_window__, False)  # change hide to True
         elif is_professor:
             self._switch_windows_(self.__professor_window__, False)  # change hide to True
         else:
+            self.__dialogue__.set_enter_data(*self.get_enter_data())
             self.__dialogue__.show()
+
+    def get_enter_data(self) -> tuple[str, str]:
+        return self.__ui__.login_field.text(), self.__ui__.__password_field__.text()
 
     def _check_user_(self, user_type: str) -> bool:
         user = self.__database__.get_users(user_type)
-        login, password = self.__ui__.__login_field__.text(), self.__ui__.__password_field__.text()
+        login, password = self.get_enter_data()
 
         return (login, password,) in user
 
@@ -75,6 +76,10 @@ class Menu(Window):
 class RegisterWindow(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
+        self.__database__ = Database()
+
+        self.__login__ = ""
+        self.__password__ = ""
 
         self.__ui__ = RegisterUI()
         self.__init_UI__()
@@ -83,9 +88,18 @@ class RegisterWindow(QtWidgets.QDialog):
         """Add the UI"""
         self.__ui__.setupUi(self)
 
+        self.__ui__.yes_button.clicked.connect(self._add_user_)
+        self.__ui__.no_button.clicked.connect(self.hide)
+
+    def set_enter_data(self, login: str, password: str) -> None:
+        self.__login__ = login
+        self.__password__ = password
+
     def _add_user_(self) -> None:
         """Adding the user to database"""
-        ...
+        self.__database__.add_user(self.__login__, self.__password__)
+
+        self.hide()
 
 
 @singleton

@@ -45,14 +45,14 @@ class MenuUI(object):
                                      "font-family: montserrat;\n"
                                      "font-weight: 500;")
         self.__title__.setObjectName("__title__")
-        self.__login_field__ = QtWidgets.QLineEdit(self.__login_background__)
-        self.__login_field__.setGeometry(QtCore.QRect(190, 175, 270, 50))
-        self.__login_field__.setStyleSheet("border: 2px solid black;\n"
+        self.login_field = QtWidgets.QLineEdit(self.__login_background__)
+        self.login_field.setGeometry(QtCore.QRect(190, 175, 270, 50))
+        self.login_field.setStyleSheet("border: 2px solid black;\n"
                                            "border-radius: 17px;\n"
                                            "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
                                            "\n"
                                            "padding: 5px;")
-        self.__login_field__.setObjectName("__login_field__")
+        self.login_field.setObjectName("login_field")
         self.__password_field__ = QtWidgets.QLineEdit(self.__login_background__)
         self.__password_field__.setGeometry(QtCore.QRect(190, 245, 270, 50))
         self.__password_field__.setStyleSheet("border: 2px solid black;\n"
@@ -61,16 +61,16 @@ class MenuUI(object):
                                               "\n"
                                               "padding: 5px;")
         self.__password_field__.setObjectName("__password_field__")
-        self.__button__ = QtWidgets.QPushButton(self.__login_background__)
-        self.__button__.setGeometry(QtCore.QRect(220, 340, 200, 50))
-        self.__button__.setStyleSheet("border: 2px solid black;\n"
+        self.button = QtWidgets.QPushButton(self.__login_background__)
+        self.button.setGeometry(QtCore.QRect(220, 340, 200, 50))
+        self.button.setStyleSheet("border: 2px solid black;\n"
                                       "border-radius: 17px;\n"
                                       "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
                                       "\n"
                                       "font-size: 18px;\n"
                                       "font-family: montserrat;\n"
                                       "font-weight: 400;")
-        self.__button__.setObjectName("__button__")
+        self.button.setObjectName("button")
         MainWindow.setCentralWidget(self.__central__)
 
         self.retranslateUi(MainWindow)
@@ -80,4 +80,4 @@ class MenuUI(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EquTest"))
         self.__title__.setText(_translate("MainWindow", "Login to EquTest"))
-        self.__button__.setText(_translate("MainWindow", "Login"))
+        self.button.setText(_translate("MainWindow", "Login"))
