@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'window.ui'
+# self implementation generated from reading ui file 'window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -17,12 +17,12 @@ class WindowUI(object):
         MainWindow.resize(1280, 720)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.__background__ = QtWidgets.QFrame(self.centralwidget)
-        self.__background__.setGeometry(QtCore.QRect(0, 0, 1280, 720))
-        self.__background__.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));")
-        self.__background__.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.__background__.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.__background__.setObjectName("__background__")
+        self.background = QtWidgets.QFrame(self.centralwidget)
+        self.background.setGeometry(QtCore.QRect(0, 0, 1280, 720))
+        self.background.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));")
+        self.background.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.background.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.background.setObjectName("background")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)

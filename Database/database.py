@@ -22,8 +22,6 @@ class Database:
 
         print(f"[INFO] Database {DATABASE} successfully connected")
 
-        self.__tables__ = self.get_tables()
-
     def __del__(self):
         """Closes the connection when Database is shut"""
         self.__cursor__.close()
@@ -32,7 +30,7 @@ class Database:
         print(f"[INFO] Connection to {DATABASE} successfully closed")
 
     def get_tables(self) -> list[str]:
-        self.__cursor__.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
+        self.__cursor__.execute("SELECT table_name FROM inselfation_schema.tables WHERE table_schema = 'public'")
 
         return [table[0] for table in self.__cursor__.fetchall()]
 

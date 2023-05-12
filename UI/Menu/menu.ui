@@ -17,7 +17,7 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="__central__">
-   <widget class="QFrame" name="__background__">
+   <widget class="QFrame" name="background">
     <property name="geometry">
      <rect>
       <x>0</x>

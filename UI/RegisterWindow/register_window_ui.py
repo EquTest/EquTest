@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'register_window.ui'
+# self implementation generated from reading ui file 'register_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -11,20 +11,20 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class RegisterUI(object):
+class RegisterUI(QtWidgets.QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(640, 320)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.__background__1 = QtWidgets.QFrame(self.centralwidget)
-        self.__background__1.setGeometry(QtCore.QRect(0, 0, 1280, 720))
-        self.__background__1.setStyleSheet(
+        self.background1 = QtWidgets.QFrame(self.centralwidget)
+        self.background1.setGeometry(QtCore.QRect(0, 0, 1280, 720))
+        self.background1.setStyleSheet(
             "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));")
-        self.__background__1.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.__background__1.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.__background__1.setObjectName("__background__1")
-        self.__title__ = QtWidgets.QLabel(self.__background__1)
+        self.background1.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.background1.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.background1.setObjectName("background1")
+        self.__title__ = QtWidgets.QLabel(self.background1)
         self.__title__.setGeometry(QtCore.QRect(185, 50, 270, 31))
         self.__title__.setStyleSheet("background: transparent;\n"
                                      "border: 0;\n"
@@ -33,17 +33,17 @@ class RegisterUI(object):
                                      "font-family: montserrat;\n"
                                      "font-weight: 500;")
         self.__title__.setObjectName("__title__")
-        self.yes_button = QtWidgets.QPushButton(self.__background__1)
-        self.yes_button.setGeometry(QtCore.QRect(100, 210, 200, 50))
-        self.yes_button.setStyleSheet("border: 2px solid black;\n"
+        self.start_button = QtWidgets.QPushButton(self.background1)
+        self.start_button.setGeometry(QtCore.QRect(100, 210, 200, 50))
+        self.start_button.setStyleSheet("border: 2px solid black;\n"
                                           "border-radius: 17px;\n"
                                           "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
                                           "\n"
                                           "font-size: 18px;\n"
                                           "font-family: montserrat;\n"
                                           "font-weight: 400;")
-        self.yes_button.setObjectName("yes_button")
-        self.no_button = QtWidgets.QPushButton(self.__background__1)
+        self.start_button.setObjectName("start_button")
+        self.no_button = QtWidgets.QPushButton(self.background1)
         self.no_button.setGeometry(QtCore.QRect(340, 210, 200, 50))
         self.no_button.setStyleSheet("border: 2px solid black;\n"
                                          "border-radius: 17px;\n"
@@ -52,7 +52,7 @@ class RegisterUI(object):
                                          "font-family: montserrat;\n"
                                          "font-weight: 400;")
         self.no_button.setObjectName("no_button")
-        self.__account_title__ = QtWidgets.QLabel(self.__background__1)
+        self.__account_title__ = QtWidgets.QLabel(self.background1)
         self.__account_title__.setGeometry(QtCore.QRect(190, 90, 255, 31))
         self.__account_title__.setStyleSheet("background: transparent;\n"
                                              "border: 0;\n"
@@ -70,17 +70,6 @@ class RegisterUI(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EquTest"))
         self.__title__.setText(_translate("MainWindow", "Акаунт не знайдено"))
-        self.yes_button.setText(_translate("MainWindow", "Так"))
+        self.start_button.setText(_translate("MainWindow", "Так"))
         self.no_button.setText(_translate("MainWindow", "Ні"))
         self.__account_title__.setText(_translate("MainWindow", "бажаєте створити?"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

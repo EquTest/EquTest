@@ -1,9 +1,18 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
 
 from Source.singleton import singleton
+
 from UI.Menu.menu_ui import MenuUI
 from UI.Window.window_ui import WindowUI
 from UI.RegisterWindow.register_window_ui import RegisterUI
+from UI.StudentWindow.student_window_ui import StudentWindowUI
+from UI.ProfessorWindow.professor_window_ui import ProfessorWindowUI
+from UI.TestUI.test_ui import TestWidget
+
+from Source.containers import Theme, Test, Question
+from Source.answers import WrongAnswer, RightAnswer
+
 from Database.database import Database
 from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE
 
@@ -55,9 +64,9 @@ class Menu(Window):
         is_professor = self._check_user_(PROFESSOR_TYPE)
 
         if is_student:
-            self._switch_windows_(self.__student_window__, False)  # change hide to True
+            self._switch_windows_(self.__student_window__)
         elif is_professor:
-            self._switch_windows_(self.__professor_window__, False)  # change hide to True
+            self._switch_windows_(self.__professor_window__)
         else:
             self.__dialogue__.set_enter_data(*self.get_enter_data())
             self.__dialogue__.show()
@@ -88,7 +97,7 @@ class RegisterWindow(QtWidgets.QDialog):
         """Add the UI"""
         self.__ui__.setupUi(self)
 
-        self.__ui__.yes_button.clicked.connect(self._add_user_)
+        self.__ui__.start_button.clicked.connect(self._add_user_)
         self.__ui__.no_button.clicked.connect(self.hide)
 
     def set_enter_data(self, login: str, password: str) -> None:
@@ -107,9 +116,43 @@ class StudentWindow(Window):
     def __init__(self):
         super().__init__()
 
+        self.__tests__ = []
+        self.__init_tests__()
+
+        self.__ui__ = StudentWindowUI()
+        self.__init_UI__()
+
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
-        ...
+        self.__ui__.setupUi(self)
+        self.__ui__.header.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.__ui__.header.setFixedSize(1280, 65)
+
+        self.__scroll_area__ = QtWidgets.QScrollArea()
+
+        self.__layout__ = QtWidgets.QGridLayout()
+        self.__layout__.setSpacing(30)
+
+        for index, test in enumerate(self.__tests__):
+            self.__layout__.addWidget(test, index // 2, index % 2)
+
+        self.__ui__.background.setLayout(self.__layout__)
+
+        self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.__scroll_area__.setWidgetResizable(True)
+        self.__scroll_area__.setWidget(self.__ui__.background)
+
+        self.setCentralWidget(self.__scroll_area__)
+        self.setGeometry(320, 180, 1280, 720)
+
+    def __init_tests__(self) -> None:
+        for _ in range(9):
+            test = TestWidget()
+            test.setupUi()
+            test.setFixedSize(580, 300)
+
+            self.__tests__.append(test)
 
 
 @singleton
@@ -117,9 +160,36 @@ class ProfessorWindow(Window):
     def __init__(self):
         super().__init__()
 
+        self.__ui__ = ProfessorWindowUI()
+        self.__init_UI__()
+
+        self.__tests__ = []
+
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
-        ...
+        self.__ui__.setupUi(self)
+
+        self.__ui__.add_question.clicked.connect(self.__add_question__)
+
+    def __add_question__(self) -> None:
+        test_name = self.__ui__.test_name.text()
+
+        test = None
+
+        if test_name not in [test.get_name() for test in self.__tests__]:
+            test = Test(test_name)
+
+        question_text = self.__ui__.question.text()
+
+        if question_text not in [question.get_name() for question in test.get_questions()]:
+            test.add_question(Question(question_text, [
+                WrongAnswer(self.__ui__.wrong_answer_one.text()),
+                WrongAnswer(self.__ui__.wrong_answer_two.text()),
+                WrongAnswer(self.__ui__.wrong_answer_three.text()),
+                RightAnswer(self.__ui__.correct_answer.text()),
+            ]))
+
+        self.__tests__.append(test)
 
 
 @singleton
