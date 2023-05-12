@@ -3,6 +3,7 @@ from typing import Any
 from Source.singleton import singleton
 from Database.database_constants import HOST, DATABASE, PORT, USER, PASSWORD
 from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE
+from Source.containers import Test
 
 import psycopg2
 
@@ -43,10 +44,20 @@ class Database:
         return self.__get_return__(self.__cursor__.fetchall())
 
     def add_user(self, login: str, password: str) -> None:
-        print(f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
         self.__cursor__.execute(f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
         self.__connection__.commit()
         print("Successfully.")
+
+    def add_tests(self, tests: list[Test]) -> None:
+        test_dictionary = {}
+
+        for test in tests:
+            print(f"INSERT INTO test (test_name) VALUES ('{test.get_name()}') RETURNING test_id;")
+            self.__cursor__.execute(f"INSERT INTO test (test_name) VALUES ('{test.get_name()}') RETURNING test_id;")
+
+            test_dictionary[test] = self.__cursor__.fetchone()[0]
+
+        print(test_dictionary)
 
     @staticmethod
     def __get_return__(fetched: list[tuple[Any, ...]]) -> tuple[tuple, ...]:

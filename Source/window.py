@@ -165,6 +165,18 @@ class ProfessorWindow(Window):
 
         self.__tests__ = []
 
+    def __del__(self):
+        # print(len(self.__tests__))
+        #
+        # for test in self.__tests__:
+        #     print(test.get_name())
+        #     for question in test.get_questions():
+        #         print(question.get_name())
+        #
+        #         for answer in question.get_answers():
+        #             print(answer.get_text())
+        ...
+
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
         self.__ui__.setupUi(self)
@@ -173,15 +185,17 @@ class ProfessorWindow(Window):
 
     def __add_question__(self) -> None:
         test_name = self.__ui__.test_name.text()
+        test_index = self.__check_test__(test_name)
 
-        test = None
-
-        if test_name not in [test.get_name() for test in self.__tests__]:
+        if test_index == -1:
             test = Test(test_name)
+            self.__tests__.append(test)
+        else:
+            test = self.__tests__[test_index]
 
         question_text = self.__ui__.question.text()
 
-        if question_text not in [question.get_name() for question in test.get_questions()]:
+        if not self.__check_question__(question_text, test):
             test.add_question(Question(question_text, [
                 WrongAnswer(self.__ui__.wrong_answer_one.text()),
                 WrongAnswer(self.__ui__.wrong_answer_two.text()),
@@ -189,7 +203,17 @@ class ProfessorWindow(Window):
                 RightAnswer(self.__ui__.correct_answer.text()),
             ]))
 
-        self.__tests__.append(test)
+        self.__database__.add_tests(self.__tests__)
+
+    def __check_test__(self, test_name: str) -> int:
+        try:
+            return [test.get_name() for test in self.__tests__].index(test_name)
+        except ValueError:
+            return -1
+
+    @staticmethod
+    def __check_question__(question_text: str, test: Test) -> bool:
+        return any([question_text == question.get_name() for question in test.get_questions()])
 
 
 @singleton
