@@ -1,10 +1,13 @@
 from typing import Any
 
-from answers import RightAnswer, WrongAnswer
+from Source.answers import RightAnswer, WrongAnswer
 
 
 class Container:
-    def __init__(self, object_name: str, _items_: list[Any]):
+    def __init__(self, object_name: str, _items_: list[Any] = None):
+        if _items_ is None:
+            _items_ = []
+
         self._name_ = object_name
         self._items_ = _items_
 
@@ -14,15 +17,19 @@ class Container:
         if item not in self._items_:
             self._items_.append(item)
 
+    def get_name(self) -> str:
+        return self._name_
+
     def __repr__(self) -> str:
         return f"{self.__class__}(_name_: {self._name_}, _items_: {self._items_})"
 
 
 class Question(Container):
-    def __init__(self, question_name: str, answers_list: list[RightAnswer | WrongAnswer]):
+    def __init__(self, question_name: str, answers_list: list[RightAnswer | WrongAnswer] = None):
+
         super().__init__(question_name, answers_list)
 
-    def add_answer(self, answers) -> None:
+    def add_answer(self, answers: RightAnswer | WrongAnswer) -> None:
         """Add the question to questions list if question not already there"""
         self.add_item(answers)
 
@@ -34,10 +41,10 @@ class Question(Container):
 
 
 class Test(Container):
-    def __init__(self, test_name: str, questions_list: list[Question]):
+    def __init__(self, test_name: str, questions_list: list[Question] = None):
         super().__init__(test_name, questions_list)
 
-    def add_question(self, question) -> None:
+    def add_question(self, question: Question) -> None:
         """Add the question to questions list if question not already there"""
         self.add_item(question)
 
@@ -46,10 +53,10 @@ class Test(Container):
 
 
 class Theme(Container):
-    def __init__(self, theme_name: str, tests_list: list[Test]):
+    def __init__(self, theme_name: str, tests_list: list[Test] = None):
         super().__init__(theme_name, tests_list)
 
-    def add_test(self, test) -> None:
+    def add_test(self, test: Test) -> None:
         """Add the test to test list if test not already there"""
         self.add_item(test)
 

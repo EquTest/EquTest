@@ -9,8 +9,6 @@ from Database.database import Database
 
 
 def main():
-    database = Database()
-
     application = QApplication(sys.argv)
     window = Menu()
 
