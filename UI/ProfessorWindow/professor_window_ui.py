@@ -123,6 +123,16 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
                                         "font-family: montserrat;\n"
                                         "font-weight: 400;")
         self.add_question.setObjectName("add_question")
+        self.done = QtWidgets.QPushButton(self.background)
+        self.done.setGeometry(QtCore.QRect(280, 620, 200, 50))
+        self.done.setStyleSheet("border: 2px solid black;\n"
+                                        "border-radius: 17px;\n"
+                                        "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
+                                        "\n"
+                                        "font-size: 18px;\n"
+                                        "font-family: montserrat;\n"
+                                        "font-weight: 400;")
+        self.done.setObjectName("add_question")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -138,3 +148,4 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.wrong_answer_three.setPlaceholderText(_translate("MainWindow", "Неправильна відповідь"))
         self.correct_answer.setPlaceholderText(_translate("MainWindow", "Правильна відповідь"))
         self.add_question.setText(_translate("MainWindow", "Додати питання"))
+        self.done.setText(_translate("MainWindow", "Готово"))

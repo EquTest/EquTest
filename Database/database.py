@@ -1,4 +1,5 @@
 from typing import Any
+from collections import defaultdict
 
 from Source.singleton import singleton
 from Database.database_constants import HOST, DATABASE, PORT, USER, PASSWORD
@@ -39,20 +40,22 @@ class Database:
         if user_type not in (PROFESSOR_TYPE, STUDENT_TYPE):
             return ()
 
-        self.__cursor__.execute(f"SELECT ({user_type}.{user_type}_name, {user_type}.{user_type}_password) FROM {user_type}")
+        self.__cursor__.execute(
+            f"SELECT ({user_type}.{user_type}_name, {user_type}.{user_type}_password) FROM {user_type}")
 
         return self.__get_return__(self.__cursor__.fetchall())
 
     def add_user(self, login: str, password: str) -> None:
-        self.__cursor__.execute(f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
+        self.__cursor__.execute(
+            f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
         self.__connection__.commit()
         print("Successfully.")
 
     def add_tests(self, tests: list[Test]) -> None:
         test_dictionary = {}
+        self.__cursor__.execute("SELECT setval('test_test_id_seq', (SELECT max(test_id) FROM test));")
 
         for test in tests:
-            print(f"INSERT INTO test (test_name) VALUES ('{test.get_name()}') RETURNING test_id;")
             self.__cursor__.execute(f"INSERT INTO test (test_name) VALUES ('{test.get_name()}') RETURNING test_id;")
 
             test_dictionary[test] = self.__cursor__.fetchone()[0]

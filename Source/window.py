@@ -54,7 +54,7 @@ class Menu(Window):
         """Implementation for Menu Class"""
         self.__ui__.setupUi(self)
         self.__student_window__ = StudentWindow()
-        self.__professor_window__ = ProfessorWindow()
+        self.__professor_window__ = ProfessorWindow(self)
         self.__dialogue__ = RegisterWindow()
 
         self.__ui__.button.clicked.connect(self._check_enter_data_)
@@ -70,6 +70,9 @@ class Menu(Window):
         else:
             self.__dialogue__.set_enter_data(*self.get_enter_data())
             self.__dialogue__.show()
+
+        self.__ui__.login_field.setText("")
+        self.__ui__.__password_field__.setText("")
 
     def get_enter_data(self) -> tuple[str, str]:
         return self.__ui__.login_field.text(), self.__ui__.__password_field__.text()
@@ -157,31 +160,22 @@ class StudentWindow(Window):
 
 @singleton
 class ProfessorWindow(Window):
-    def __init__(self):
+    def __init__(self, menu: Menu):
         super().__init__()
 
         self.__ui__ = ProfessorWindowUI()
         self.__init_UI__()
 
-        self.__tests__ = []
+        self.__menu__ = menu
 
-    def __del__(self):
-        # print(len(self.__tests__))
-        #
-        # for test in self.__tests__:
-        #     print(test.get_name())
-        #     for question in test.get_questions():
-        #         print(question.get_name())
-        #
-        #         for answer in question.get_answers():
-        #             print(answer.get_text())
-        ...
+        self.__tests__ = []
 
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
         self.__ui__.setupUi(self)
 
         self.__ui__.add_question.clicked.connect(self.__add_question__)
+        self.__ui__.done.clicked.connect(self.__add_test__)
 
     def __add_question__(self) -> None:
         test_name = self.__ui__.test_name.text()
@@ -203,7 +197,19 @@ class ProfessorWindow(Window):
                 RightAnswer(self.__ui__.correct_answer.text()),
             ]))
 
+        self.__clear_fields__()
+
+    def __clear_fields__(self) -> None:
+        self.__ui__.wrong_answer_one.setText("")
+        self.__ui__.wrong_answer_two.setText("")
+        self.__ui__.wrong_answer_three.setText("")
+        self.__ui__.correct_answer.setText("")
+        self.__ui__.question.setText("")
+
+    def __add_test__(self) -> None:
         self.__database__.add_tests(self.__tests__)
+
+        self._switch_windows_(self.__menu__)
 
     def __check_test__(self, test_name: str) -> int:
         try:
