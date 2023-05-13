@@ -52,6 +52,7 @@ class MenuUI(QtWidgets.QMainWindow):
                                        "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
                                        "\n"
                                        "padding: 5px;")
+        self.login_field.setPlaceholderText("Логін")
         self.login_field.setObjectName("login_field")
         self.__password_field__ = QtWidgets.QLineEdit(self.__login_background__)
         self.__password_field__.setGeometry(QtCore.QRect(190, 245, 270, 50))
@@ -60,6 +61,7 @@ class MenuUI(QtWidgets.QMainWindow):
                                               "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
                                               "\n"
                                               "padding: 5px;")
+        self.__password_field__.setPlaceholderText("Пароль")
         self.__password_field__.setObjectName("__password_field__")
         self.button = QtWidgets.QPushButton(self.__login_background__)
         self.button.setGeometry(QtCore.QRect(220, 340, 200, 50))
