@@ -10,7 +10,7 @@ from UI.StudentWindow.student_window_ui import StudentWindowUI
 from UI.ProfessorWindow.professor_window_ui import ProfessorWindowUI
 from UI.TestUI.test_ui import TestWidget
 
-from Source.containers import Theme, Test, Question
+from Source.containers import Test, Question
 from Source.answers import WrongAnswer, RightAnswer
 
 from Database.database import Database
