@@ -1,12 +1,12 @@
 from typing import Any
-from collections import defaultdict
-
-from Source.singleton import singleton
-from Database.database_constants import HOST, DATABASE, PORT, USER, PASSWORD
-from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE
-from Source.containers import Test
 
 import psycopg2
+
+from Database.database_constants import HOST, DATABASE, PORT, USER, PASSWORD
+from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE, TEST_TYPE, QUESTION_TYPE
+from Source.containers import Test
+from Source.singleton import singleton
+from Source.answers import RightAnswer, WrongAnswer
 
 
 @singleton
@@ -45,22 +45,81 @@ class Database:
 
         return self.__get_return__(self.__cursor__.fetchall())
 
+    def get_containers(self, container_type: str):
+        if container_type not in (TEST_TYPE, QUESTION_TYPE):
+            return ()
+
+        self.__cursor__.execute(f"SELECT {container_type}.{container_type}_text FROM {container_type}")
+
+        return [container[0] for container in self.__cursor__.fetchall()]
+
     def add_user(self, login: str, password: str) -> None:
         self.__cursor__.execute(
             f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")
         self.__connection__.commit()
         print("Successfully.")
 
+    def set_sequences_value(self, restart: bool = False) -> None:
+        self.__cursor__.execute(
+            "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public'")
+
+        sequences = self.__cursor__.fetchall()
+        if restart:
+            for sequence in sequences:
+                self.__cursor__.execute(f"ALTER SEQUENCE {sequence[0]} RESTART WITH 1")
+
     def add_tests(self, tests: list[Test]) -> None:
-        test_dictionary = {}
-        self.__cursor__.execute("SELECT setval('test_test_id_seq', (SELECT max(test_id) FROM test));")
+        self.set_sequences_value()
+
+        test_names = set(self.get_containers(TEST_TYPE))
+        question_names = set(self.get_containers(QUESTION_TYPE))
 
         for test in tests:
-            self.__cursor__.execute(f"INSERT INTO test (test_name) VALUES ('{test.get_name()}') RETURNING test_id;")
+            if test.get_name() in test_names:
+                continue
 
-            test_dictionary[test] = self.__cursor__.fetchone()[0]
+            self.__cursor__.execute(
+                "INSERT INTO test (test_text) VALUES (%s) RETURNING test_id;",
+                (test.get_name(),)
+            )
+            test_id = self.__cursor__.fetchone()[0]
 
-        print(test_dictionary)
+            question_values = []
+            answer_values = []
+
+            for question in test.get_questions():
+                if question.get_name() in question_names:
+                    continue
+
+                self.__cursor__.execute(
+                    "INSERT INTO question (question_text, test_id) VALUES (%s, %s) RETURNING question_id;",
+                    (question.get_name(), test_id)
+                )
+                question_id = self.__cursor__.fetchone()[0]
+
+                for answer in question.get_answers():
+                    if isinstance(answer, RightAnswer):
+                        answer_values.append((answer.get_text(), question_id))
+                    elif isinstance(answer, WrongAnswer):
+                        question_values.append((answer.get_text(), question_id))
+
+                question_names.add(question.get_name())
+
+            if answer_values:
+                self.__cursor__.executemany(
+                    "INSERT INTO right_answer (right_answer_text, question_id) VALUES (%s, %s);",
+                    answer_values
+                )
+
+            if question_values:
+                self.__cursor__.executemany(
+                    "INSERT INTO wrong_answer (wrong_answer_text, question_id) VALUES (%s, %s);",
+                    question_values
+                )
+
+            test_names.add(test.get_name())
+
+        self.__connection__.commit()
 
     @staticmethod
     def __get_return__(fetched: list[tuple[Any, ...]]) -> tuple[tuple, ...]:

@@ -49,6 +49,8 @@ class Menu(Window):
 
         self.__ui__ = MenuUI()
         self.__init_UI__()
+        #
+        # self.__database__.set_sequences_value(True)
 
     def __init_UI__(self) -> None:
         """Implementation for Menu Class"""
@@ -208,6 +210,8 @@ class ProfessorWindow(Window):
 
     def __add_test__(self) -> None:
         self.__database__.add_tests(self.__tests__)
+
+        self.__ui__.test_name.setText("")
 
         self._switch_windows_(self.__menu__)
 
