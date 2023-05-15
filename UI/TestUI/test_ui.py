@@ -12,12 +12,19 @@ from PyQt5 import QtCore, QtWidgets
 
 
 class TestWidget(QtWidgets.QWidget):
+    def __init__(self, test_name: str, grade: int):
+        super().__init__()
+        self.__test_name__ = test_name
+        self.__grade__ = grade
+
+        self.setupUi()
+
     def setupUi(self):
         self.resize(580, 300)
         self.background = QtWidgets.QFrame(self)
         self.background.setGeometry(QtCore.QRect(0, 0, 580, 300))
         self.background.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
+            "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
             "\n"
             "border-radius: 20px;\n"
             "border: 2px solid black;")
@@ -28,7 +35,7 @@ class TestWidget(QtWidgets.QWidget):
         self.start_button.setGeometry(QtCore.QRect(30, 220, 200, 50))
         self.start_button.setStyleSheet("border: 2px solid black;\n"
                                         "border-radius: 17px;\n"
-                                        "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
+                                        "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
                                         "\n"
                                         "font-size: 18px;\n"
                                         "font-family: montserrat;\n"
@@ -62,9 +69,14 @@ class TestWidget(QtWidgets.QWidget):
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
 
+    @staticmethod
+    def open_test_window(student_window, test_window) -> None:
+        student_window.hide()
+        test_window.show()
+
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("self", "Test"))
         self.start_button.setText(_translate("self", "Почати"))
-        self.__title__.setText(_translate("self", "Назва тесту"))
-        self.questions_amount.setText(_translate("self", "10 питань"))
+        self.__title__.setText(_translate("self", f"{self.__test_name__}"))
+        self.questions_amount.setText(_translate("self", f"Максимальний бал: {self.__grade__}"))

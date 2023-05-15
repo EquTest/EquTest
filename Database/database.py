@@ -1,10 +1,11 @@
 from typing import Any
+from collections import defaultdict
 
 import psycopg2
 
 from Database.database_constants import HOST, DATABASE, PORT, USER, PASSWORD
 from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE, TEST_TYPE, QUESTION_TYPE
-from Source.containers import Test
+from Source.containers import Test, Question
 from Source.singleton import singleton
 from Source.answers import RightAnswer, WrongAnswer
 
@@ -21,6 +22,11 @@ class Database:
             password=PASSWORD,
         )
         self.__cursor__ = self.__connection__.cursor()
+
+        self.__tests__ = []
+        self.__tests_data__ = defaultdict(lambda: defaultdict(lambda: (set(), [],)))
+
+        self.__init_tests__()
 
         print(f"[INFO] Database {DATABASE} successfully connected")
 
@@ -120,6 +126,40 @@ class Database:
             test_names.add(test.get_name())
 
         self.__connection__.commit()
+
+    def __init_tests_data__(self):
+        self.__cursor__.execute("""
+                    SELECT test.test_id, test.test_text, question.question_id, question.question_text,
+                    right_answer.right_answer_text, wrong_answer.wrong_answer_text
+                    FROM test
+                    JOIN question ON test.test_id = question.test_id
+                    JOIN right_answer ON question.question_id = right_answer.question_id
+                    JOIN wrong_answer ON question.question_id = wrong_answer.question_id
+                    ORDER BY question.question_id;
+                """)
+
+        for row in self.__cursor__:
+            test_id, test_text, question_id, question_text, right_answer_text, wrong_answer_text = row
+
+            self.__tests_data__[test_text][question_text][0].add(right_answer_text)
+            self.__tests_data__[test_text][question_text][1].append(wrong_answer_text)
+
+    def __init_tests__(self):
+        self.__init_tests_data__()
+
+        for test_text, questions in self.__tests_data__.items():
+            test = Test(test_text)
+
+            for question_text, answers in questions.items():
+                test.add_question(Question(question_text, [
+                    RightAnswer(*answers[0]),
+                    *[WrongAnswer(text) for text in answers[1]]
+                ]))
+
+            self.__tests__.append(test)
+
+    def get_tests(self) -> list[Test]:
+        return self.__tests__
 
     @staticmethod
     def __get_return__(fetched: list[tuple[Any, ...]]) -> tuple[tuple, ...]:
