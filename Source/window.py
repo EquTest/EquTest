@@ -22,14 +22,14 @@ class Window(QtWidgets.QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super().__init__()
-        self.__database__ = Database()
+        self._database_ = Database()
         self.__ui__ = WindowUI()
 
     def __init_UI__(self, *args, **kwargs) -> None:
         """Add the implementation"""
         self.__ui__.setupUi(self)
 
-    def _switch_windows_(self, another_window: QtWidgets.QMainWindow, hide: bool = True) -> None:
+    def switch_windows(self, another_window: QtWidgets.QMainWindow, hide: bool = True) -> None:
         """Hide a current window and replace it by a caller"""
 
         if hide:
@@ -50,6 +50,9 @@ class Menu(Window):
         self.__ui__ = MenuUI()
         self.__init_UI__()
 
+        #
+        # self._database_.set_sequences_value(True)
+
     def __init_UI__(self) -> None:
         """Implementation for Menu Class"""
         self.__ui__.setupUi(self)
@@ -64,9 +67,9 @@ class Menu(Window):
         is_professor = self._check_user_(PROFESSOR_TYPE)
 
         if is_student:
-            self._switch_windows_(self.__student_window__)
+            self.switch_windows(self.__student_window__)
         elif is_professor:
-            self._switch_windows_(self.__professor_window__)
+            self.switch_windows(self.__professor_window__)
         else:
             self.__dialogue__.set_enter_data(*self.get_enter_data())
             self.__dialogue__.show()
@@ -78,7 +81,7 @@ class Menu(Window):
         return self.__ui__.login_field.text(), self.__ui__.__password_field__.text()
 
     def _check_user_(self, user_type: str) -> bool:
-        user = self.__database__.get_users(user_type)
+        user = self._database_.get_users(user_type)
         login, password = self.get_enter_data()
 
         return (login, password,) in user
@@ -88,7 +91,7 @@ class Menu(Window):
 class RegisterWindow(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        self.__database__ = Database()
+        self._database_ = Database()
 
         self.__login__ = ""
         self.__password__ = ""
@@ -109,7 +112,7 @@ class RegisterWindow(QtWidgets.QDialog):
 
     def _add_user_(self) -> None:
         """Adding the user to database"""
-        self.__database__.add_user(self.__login__, self.__password__)
+        self._database_.add_user(self.__login__, self.__password__)
 
         self.hide()
 
@@ -119,7 +122,7 @@ class StudentWindow(Window):
     def __init__(self):
         super().__init__()
 
-        self.__tests__ = []
+        self.__test_windows__ = []
         self.__init_tests__()
 
         self.__ui__ = StudentWindowUI()
@@ -136,7 +139,7 @@ class StudentWindow(Window):
         self.__layout__ = QtWidgets.QGridLayout()
         self.__layout__.setSpacing(30)
 
-        for index, test in enumerate(self.__tests__):
+        for index, test in enumerate(self.__test_windows__):
             self.__layout__.addWidget(test, index // 2, index % 2)
 
         self.__ui__.background.setLayout(self.__layout__)
@@ -150,12 +153,13 @@ class StudentWindow(Window):
         self.setGeometry(320, 180, 1280, 720)
 
     def __init_tests__(self) -> None:
-        for _ in range(9):
-            test = TestWidget()
-            test.setupUi()
+        tests = self._database_.get_tests()
+
+        for test in tests:
+            test = TestWidget(test.get_name(), len(test.get_questions()))
             test.setFixedSize(580, 300)
 
-            self.__tests__.append(test)
+            self.__test_windows__.append(test)
 
 
 @singleton
@@ -207,9 +211,11 @@ class ProfessorWindow(Window):
         self.__ui__.question.setText("")
 
     def __add_test__(self) -> None:
-        self.__database__.add_tests(self.__tests__)
+        self._database_.add_tests(self.__tests__)
 
-        self._switch_windows_(self.__menu__)
+        self.__ui__.test_name.setText("")
+
+        self.switch_windows(self.__menu__)
 
     def __check_test__(self, test_name: str) -> int:
         try:
@@ -223,7 +229,7 @@ class ProfessorWindow(Window):
 
 
 @singleton
-class AddTestWindow(Window):
+class TestWindow(Window):
     def __init__(self):
         super().__init__()
 
