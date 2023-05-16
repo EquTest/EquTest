@@ -18,7 +18,7 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.background = QtWidgets.QFrame(self.centralwidget)
-        self.background.setGeometry(QtCore.QRect(-10, 0, 1280, 720))
+        self.background.setGeometry(QtCore.QRect(0, 0, 1280, 720))
         self.background.setStyleSheet(
             "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));")
         self.background.setFrameShape(QtWidgets.QFrame.StyledPanel)

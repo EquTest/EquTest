@@ -1,6 +1,6 @@
 from typing import Any
 
-from Source.answers import RightAnswer, WrongAnswer
+from Source.answers import RightAnswer, WrongAnswer, Answer
 
 
 class Container:
@@ -36,7 +36,7 @@ class Question(Container):
     def get_answers(self) -> list[RightAnswer | WrongAnswer]:
         return self._items_
 
-    def get_right_or_wrong(self, right_or_wrong: RightAnswer | WrongAnswer) -> list[RightAnswer | WrongAnswer]:
+    def get_right_or_wrong(self, right_or_wrong) -> list[RightAnswer | WrongAnswer]:
         return [answer for answer in self._items_ if isinstance(answer, right_or_wrong)]
 
 
