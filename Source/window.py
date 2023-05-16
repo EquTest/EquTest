@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5 import QtCore
 
 from Source.singleton import singleton
 
@@ -225,7 +224,6 @@ class StudentWindow(Window):
         tests = self._database_.get_tests()
 
         for test in tests:
-            print(test.get_name())
             test_widget = TestWidget(test.get_name(), len(test.get_questions()), TestWindow(test), self)
             test_widget.setFixedSize(580, 300)
 
@@ -269,6 +267,7 @@ class TestWindow(Window):
                                          "\n"
                                          "padding: 0;")
 
+        self.answer_button.clicked.connect(self.get_result)
         self.__layout__.addWidget(self.answer_button, alignment=Qt.AlignLeft | Qt.AlignBottom)
         self.__ui__.background.setLayout(self.__layout__)
 
@@ -279,6 +278,14 @@ class TestWindow(Window):
 
         self.setCentralWidget(self.__scroll_area__)
         self.setGeometry(320, 180, 1280, 720)
+
+    def get_result(self) -> None:
+        right_answers = [question.get_result() for question in self.__questions__].count(1)
+        ratio = f"{round(right_answers / len(self.__questions__), 2) * 100}%"
+
+        print(ratio)
+
+        self.switch_windows(StudentWindow())
 
     def __init_questions__(self) -> None:
         questions = self.__test__.get_questions()

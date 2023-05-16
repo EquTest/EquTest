@@ -48,6 +48,7 @@ class QuestionWidget(QtWidgets.QWidget):
                                     "font-family: montserrat;\n"
                                     "font-weight: 500;")
         self.question.setObjectName("question")
+        self.buttons = QtWidgets.QButtonGroup()
         self.first_answer = QtWidgets.QRadioButton(self.background)
         self.first_answer.setGeometry(QtCore.QRect(60, 90, 811, 31))
         self.first_answer.setStyleSheet("background: transparent;\n"
@@ -77,8 +78,17 @@ class QuestionWidget(QtWidgets.QWidget):
         self.fourth_answer.setIconSize(QtCore.QSize(30, 30))
         self.fourth_answer.setObjectName("fourth_answer")
 
+        self.buttons.addButton(self.first_answer)
+        self.buttons.addButton(self.second_answer)
+        self.buttons.addButton(self.third_answer)
+        self.buttons.addButton(self.fourth_answer)
+
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
+
+    def get_result(self) -> int:
+        checked = self.buttons.checkedButton()
+        return int(checked.text() == self.__right_answer__) if checked else 0
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
