@@ -156,7 +156,7 @@ class StudentWindow(Window):
         tests = self._database_.get_tests()
 
         for test in tests:
-            test = TestWidget(test.get_name(), len(test.get_questions()))
+            test = TestWidget(test.get_name(), len(test.get_questions()), TestWindow(test), self)
             test.setFixedSize(580, 300)
 
             self.__test_windows__.append(test)
@@ -230,8 +230,10 @@ class ProfessorWindow(Window):
 
 @singleton
 class TestWindow(Window):
-    def __init__(self):
+    def __init__(self, test: Test):
         super().__init__()
+
+        self.__test__ = test
 
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
