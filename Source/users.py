@@ -1,3 +1,6 @@
+from Source.singleton import singleton
+
+
 class User:
     def __init__(self, name: str):
         self._name_ = name
@@ -6,11 +9,15 @@ class User:
         return f"{self.__class__}(_name_: {self._name_})"
 
 
+@singleton
 class Student(User):
-    def __init__(self, name):
+    def __init__(self, name: str):
         super().__init__(name)
 
-        """Add the implementation"""
+        self.__current_student__ = name
+
+    def get_current_student(self) -> str:
+        return self.__current_student__
 
 
 class Professor(User):

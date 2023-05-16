@@ -14,6 +14,7 @@ from UI.TestWindow.test_window_ui import TestWindowUI
 
 from Source.containers import Test, Question
 from Source.answers import WrongAnswer, RightAnswer
+from Source.users import Student
 
 from Database.database import Database
 from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE
@@ -85,6 +86,8 @@ class Menu(Window):
     def _check_user_(self, user_type: str) -> bool:
         user = self._database_.get_users(user_type)
         login, password = self.get_enter_data()
+
+        Student(login)
 
         return (login, password,) in user
 
@@ -281,9 +284,8 @@ class TestWindow(Window):
 
     def get_result(self) -> None:
         right_answers = [question.get_result() for question in self.__questions__].count(1)
-        ratio = f"{round(right_answers / len(self.__questions__), 2) * 100}%"
 
-        print(ratio)
+        self._database_.add_grade(Student().get_current_student(), self.__test__.get_name(), right_answers)
 
         self.switch_windows(StudentWindow())
 

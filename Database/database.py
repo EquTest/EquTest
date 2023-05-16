@@ -158,6 +158,18 @@ class Database:
 
             self.__tests__.append(test)
 
+    def add_grade(self, student_name: str, test_text: str, grade: int) -> None:
+        self.__cursor__.execute("SELECT student.student_id FROM student WHERE student.student_name = %s;",
+                                (student_name,))
+        student_id = self.__cursor__.fetchone()[0]
+
+        self.__cursor__.execute("SELECT test.test_id FROM test WHERE test.test_text = %s;", (test_text,))
+        test_id = self.__cursor__.fetchone()[0]
+
+        self.__cursor__.execute("INSERT INTO grade (student_id, test_grade, test_id) VALUES (%s, %s, %s)",
+                                (student_id, grade, test_id))
+        self.__connection__.commit()
+
     def get_tests(self) -> list[Test]:
         return self.__tests__
 

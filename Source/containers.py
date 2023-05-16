@@ -26,7 +26,6 @@ class Container:
 
 class Question(Container):
     def __init__(self, question_name: str, answers_list: list[RightAnswer | WrongAnswer] = None):
-
         super().__init__(question_name, answers_list)
 
     def add_answer(self, answers: RightAnswer | WrongAnswer) -> None:
