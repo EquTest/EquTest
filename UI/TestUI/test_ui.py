@@ -12,10 +12,12 @@ from PyQt5 import QtCore, QtWidgets
 
 
 class TestWidget(QtWidgets.QWidget):
-    def __init__(self, test_name: str, grade: int):
+    def __init__(self, test_name: str, grade: int, test_window, student_window):
         super().__init__()
         self.__test_name__ = test_name
         self.__grade__ = grade
+        self.__test_window__ = test_window
+        self.__student_window__ = student_window
 
         self.setupUi()
 
@@ -43,6 +45,7 @@ class TestWidget(QtWidgets.QWidget):
                                         "\n"
                                         "padding: 0;")
         self.start_button.setObjectName("start_button")
+        self.start_button.clicked.connect(self.open_test_window)
         self.__title__ = QtWidgets.QLabel(self.background)
         self.__title__.setGeometry(QtCore.QRect(35, 30, 491, 31))
         self.__title__.setStyleSheet("background: transparent;\n"
@@ -69,10 +72,8 @@ class TestWidget(QtWidgets.QWidget):
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    @staticmethod
-    def open_test_window(student_window, test_window) -> None:
-        student_window.hide()
-        test_window.show()
+    def open_test_window(self) -> None:
+        self.__student_window__.switch_windows(self.__test_window__)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

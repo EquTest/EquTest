@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5 import QtCore
 
 from Source.singleton import singleton
 
@@ -9,6 +10,8 @@ from UI.RegisterWindow.register_window_ui import RegisterUI
 from UI.StudentWindow.student_window_ui import StudentWindowUI
 from UI.ProfessorWindow.professor_window_ui import ProfessorWindowUI
 from UI.TestUI.test_ui import TestWidget
+from UI.TestWindow.question_ui import QuestionWidget
+from UI.TestWindow.test_window_ui import TestWindowUI
 
 from Source.containers import Test, Question
 from Source.answers import WrongAnswer, RightAnswer
@@ -118,51 +121,6 @@ class RegisterWindow(QtWidgets.QDialog):
 
 
 @singleton
-class StudentWindow(Window):
-    def __init__(self):
-        super().__init__()
-
-        self.__test_windows__ = []
-        self.__init_tests__()
-
-        self.__ui__ = StudentWindowUI()
-        self.__init_UI__()
-
-    def __init_UI__(self) -> None:
-        """Implementation for StudentWindow Class"""
-        self.__ui__.setupUi(self)
-        self.__ui__.header.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        self.__ui__.header.setFixedSize(1280, 65)
-
-        self.__scroll_area__ = QtWidgets.QScrollArea()
-
-        self.__layout__ = QtWidgets.QGridLayout()
-        self.__layout__.setSpacing(30)
-
-        for index, test in enumerate(self.__test_windows__):
-            self.__layout__.addWidget(test, index // 2, index % 2)
-
-        self.__ui__.background.setLayout(self.__layout__)
-
-        self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.__scroll_area__.setWidgetResizable(True)
-        self.__scroll_area__.setWidget(self.__ui__.background)
-
-        self.setCentralWidget(self.__scroll_area__)
-        self.setGeometry(320, 180, 1280, 720)
-
-    def __init_tests__(self) -> None:
-        tests = self._database_.get_tests()
-
-        for test in tests:
-            test = TestWidget(test.get_name(), len(test.get_questions()))
-            test.setFixedSize(580, 300)
-
-            self.__test_windows__.append(test)
-
-
-@singleton
 class ProfessorWindow(Window):
     def __init__(self, menu: Menu):
         super().__init__()
@@ -229,13 +187,110 @@ class ProfessorWindow(Window):
 
 
 @singleton
-class TestWindow(Window):
+class StudentWindow(Window):
     def __init__(self):
         super().__init__()
 
+        self.__test_windows__ = []
+        self.__init_tests__()
+
+        self.__ui__ = StudentWindowUI()
+        self.__init_UI__()
+
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
-        ...
+        self.__ui__.setupUi(self)
+        self.__ui__.header.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.__ui__.header.setFixedSize(1280, 65)
+
+        self.__scroll_area__ = QtWidgets.QScrollArea()
+
+        self.__layout__ = QtWidgets.QGridLayout()
+        self.__layout__.setSpacing(30)
+
+        for index, test in enumerate(self.__test_windows__):
+            self.__layout__.addWidget(test, index // 2, index % 2)
+
+        self.__ui__.background.setLayout(self.__layout__)
+
+        self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.__scroll_area__.setWidgetResizable(True)
+        self.__scroll_area__.setWidget(self.__ui__.background)
+
+        self.setCentralWidget(self.__scroll_area__)
+        self.setGeometry(320, 180, 1280, 720)
+
+    def __init_tests__(self) -> None:
+        tests = self._database_.get_tests()
+
+        for test in tests:
+            print(test.get_name())
+            test_widget = TestWidget(test.get_name(), len(test.get_questions()), TestWindow(test), self)
+            test_widget.setFixedSize(580, 300)
+
+            self.__test_windows__.append(test_widget)
+
+
+class TestWindow(Window):
+    def __init__(self, test: Test):
+        super().__init__()
+
+        self.__test__ = test
+        self.__questions__ = []
+        self.__init_questions__()
+        self.__ui__ = TestWindowUI()
+
+        self.__init_UI__()
+
+    def __init_UI__(self) -> None:
+        """Implementation for StudentWindow Class"""
+        self.__ui__.setupUi(self)
+        self.__ui__.header.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.__ui__.header.setFixedSize(1280, 65)
+
+        self.__scroll_area__ = QtWidgets.QScrollArea()
+        self.__layout__ = QtWidgets.QVBoxLayout()
+        self.__layout__.setSpacing(30)
+
+        for question_widget in self.__questions__:
+            self.__layout__.addWidget(question_widget, alignment=Qt.AlignLeft | Qt.AlignTop)
+
+        self.answer_button = QtWidgets.QPushButton()
+        self.answer_button.setText("Відповісти")
+        self.answer_button.setFixedSize(200, 50)
+        self.answer_button.setStyleSheet("border: 2px solid black;\n"
+                                         "border-radius: 17px;\n"
+                                         "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
+                                         "\n"
+                                         "font-size: 18px;\n"
+                                         "font-family: montserrat;\n"
+                                         "font-weight: 400;"
+                                         "\n"
+                                         "padding: 0;")
+
+        self.__layout__.addWidget(self.answer_button, alignment=Qt.AlignLeft | Qt.AlignBottom)
+        self.__ui__.background.setLayout(self.__layout__)
+
+        self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.__scroll_area__.setWidgetResizable(True)
+        self.__scroll_area__.setWidget(self.__ui__.background)
+
+        self.setCentralWidget(self.__scroll_area__)
+        self.setGeometry(320, 180, 1280, 720)
+
+    def __init_questions__(self) -> None:
+        questions = self.__test__.get_questions()
+
+        for question in questions:
+            right_answer = question.get_right_or_wrong(RightAnswer)[0].get_text()
+            wrong_answers = [wrong_answer.get_text() for wrong_answer in question.get_right_or_wrong(WrongAnswer)]
+
+            question_widget = QuestionWidget(question.get_name(), right_answer, wrong_answers)
+            question_widget.setFixedSize(1170, 330)
+
+            self.__questions__.append(question_widget)
 
 
 @singleton
