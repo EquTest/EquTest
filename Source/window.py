@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5 import QtCore
 
 from Source.singleton import singleton
 
@@ -224,13 +225,13 @@ class StudentWindow(Window):
         tests = self._database_.get_tests()
 
         for test in tests:
+            print(test.get_name())
             test_widget = TestWidget(test.get_name(), len(test.get_questions()), TestWindow(test), self)
             test_widget.setFixedSize(580, 300)
 
             self.__test_windows__.append(test_widget)
 
 
-@singleton
 class TestWindow(Window):
     def __init__(self, test: Test):
         super().__init__()
@@ -250,10 +251,25 @@ class TestWindow(Window):
 
         self.__scroll_area__ = QtWidgets.QScrollArea()
         self.__layout__ = QtWidgets.QVBoxLayout()
+        self.__layout__.setSpacing(30)
 
         for question_widget in self.__questions__:
-            self.__layout__.addWidget(question_widget, alignment=Qt.AlignLeft)
+            self.__layout__.addWidget(question_widget, alignment=Qt.AlignLeft | Qt.AlignTop)
 
+        self.answer_button = QtWidgets.QPushButton()
+        self.answer_button.setText("Відповісти")
+        self.answer_button.setFixedSize(200, 50)
+        self.answer_button.setStyleSheet("border: 2px solid black;\n"
+                                         "border-radius: 17px;\n"
+                                         "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
+                                         "\n"
+                                         "font-size: 18px;\n"
+                                         "font-family: montserrat;\n"
+                                         "font-weight: 400;"
+                                         "\n"
+                                         "padding: 0;")
+
+        self.__layout__.addWidget(self.answer_button, alignment=Qt.AlignLeft | Qt.AlignBottom)
         self.__ui__.background.setLayout(self.__layout__)
 
         self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -272,7 +288,7 @@ class TestWindow(Window):
             wrong_answers = [wrong_answer.get_text() for wrong_answer in question.get_right_or_wrong(WrongAnswer)]
 
             question_widget = QuestionWidget(question.get_name(), right_answer, wrong_answers)
-            question_widget.setupUi()
+            question_widget.setFixedSize(1170, 330)
 
             self.__questions__.append(question_widget)
 

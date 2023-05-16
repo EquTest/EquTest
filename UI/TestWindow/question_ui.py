@@ -22,12 +22,14 @@ class QuestionWidget(QtWidgets.QWidget):
 
         self.__answers__ = self.__wrong_answers__ + [self.__right_answer__]
 
+        self.setupUi()
+
     def setupUi(self):
         self.resize(1170, 330)
         self.background = QtWidgets.QFrame(self)
         self.background.setGeometry(QtCore.QRect(0, 0, 1170, 330))
         self.background.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
+            "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
             "\n"
             "border-radius: 20px;\n"
             "border: 2px solid black;\n"
@@ -38,11 +40,11 @@ class QuestionWidget(QtWidgets.QWidget):
         self.background.setFrameShadow(QtWidgets.QFrame.Raised)
         self.background.setObjectName("background")
         self.question = QtWidgets.QLabel(self.background)
-        self.question.setGeometry(QtCore.QRect(35, 30, 491, 31))
+        self.question.setGeometry(QtCore.QRect(35, 30, 1170, 31))
         self.question.setStyleSheet("background: transparent;\n"
                                     "border: 0;\n"
                                     "\n"
-                                    "font-size: 24px;\n"
+                                    "font-size: 18px;\n"
                                     "font-family: montserrat;\n"
                                     "font-weight: 500;")
         self.question.setObjectName("question")
