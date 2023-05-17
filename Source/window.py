@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from Source.singleton import singleton
 
@@ -19,7 +20,7 @@ from Source.answers import WrongAnswer, RightAnswer
 from Source.users import Student, Professor
 
 from Database.database import Database
-from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE
+from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE, LOGO_PATH
 
 
 class Window(QtWidgets.QMainWindow):
@@ -29,6 +30,8 @@ class Window(QtWidgets.QMainWindow):
         super().__init__()
         self._database_ = Database()
         self.__ui__ = WindowUI()
+
+        self.setWindowIcon(QIcon(LOGO_PATH))
 
     def __init_UI__(self, *args, **kwargs) -> None:
         """Add the implementation"""
@@ -325,10 +328,10 @@ class StatisticWindow(Window):
     def __init__(self):
         super().__init__()
 
-        self.__ui__ = StatisticUI()
-
         self.__current_user__ = Student().get_current_student() or Professor().get_current_professor()
         self.__is_professor__ = bool(Professor().get_current_professor())
+
+        self.__ui__ = StatisticUI(self.__is_professor__)
 
         self.__statistic__ = []
         self.__init_statistic__()
@@ -362,7 +365,13 @@ class StatisticWindow(Window):
         statistics = self._database_.get_grades(self.__current_user__, self.__is_professor__)
 
         for statistic in statistics:
-            statistic_widget = TestStatisticWidget(*statistic)
+            try:
+                user, test_name, grade, max_grade = statistic
+            except ValueError:
+                test_name, grade, max_grade = statistic
+                user = None
+
+            statistic_widget = TestStatisticWidget(test_name, grade, max_grade, student_name=user, add_student_names=self.__is_professor__)
             statistic_widget.setFixedSize(1280, 60)
 
             self.__statistic__.append(statistic_widget)

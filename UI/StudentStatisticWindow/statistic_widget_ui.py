@@ -12,12 +12,15 @@ from PyQt5 import QtCore, QtWidgets
 
 
 class TestStatisticWidget(QtWidgets.QWidget):
-    def __init__(self, test_name: str, right_answers: int, all_answers: int):
+    def __init__(self, test_name: str, right_answers: int, all_answers: int, student_name: str = None,
+                 add_student_names: bool = False):
         super().__init__()
 
         self.__test_name__ = test_name
         self.__right_answers__ = right_answers
         self.__percent__ = str(round(right_answers / all_answers, 2) * 100)
+        self.__add_student_names__ = add_student_names
+        self.__student_name__ = student_name
 
         self.setupUi()
 
@@ -44,7 +47,12 @@ class TestStatisticWidget(QtWidgets.QWidget):
                                          "font-weight: 400;")
         self.right_answers.setObjectName("right_answers")
         self.test_name = QtWidgets.QLabel(self)
-        self.test_name.setGeometry(QtCore.QRect(80, 15, 730, 31))
+
+        if self.__add_student_names__:
+            self.test_name.setGeometry(QtCore.QRect(300, 15, 510, 31))
+        else:
+            self.test_name.setGeometry(QtCore.QRect(80, 15, 730, 31))
+
         self.test_name.setStyleSheet("background: transparent;\n"
                                      "padding: 0;\n"
                                      "\n"
@@ -52,6 +60,17 @@ class TestStatisticWidget(QtWidgets.QWidget):
                                      "font-family: montserrat;\n"
                                      "font-weight: 400;")
         self.test_name.setObjectName("test_name")
+
+        if self.__add_student_names__:
+            self.student_name = QtWidgets.QLabel(self)
+            self.student_name.setGeometry(QtCore.QRect(80, 15, 200, 31))
+            self.student_name.setStyleSheet("background: transparent;\n"
+                                            "padding: 0;\n"
+                                            "\n"
+                                            "font-size: 18px;\n"
+                                            "font-family: montserrat;\n"
+                                            "font-weight: 400;")
+            self.student_name.setObjectName("student_name")
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -62,3 +81,5 @@ class TestStatisticWidget(QtWidgets.QWidget):
         self.percent.setText(_translate("TestStatisticWidget", f"{self.__percent__}%"))
         self.right_answers.setText(_translate("TestStatisticWidget", f"{self.__right_answers__}"))
         self.test_name.setText(_translate("TestStatisticWidget", f"{self.__test_name__}"))
+        if self.__student_name__:
+            self.student_name.setText(_translate("TestStatisticWidget", f"{self.__student_name__}"))
