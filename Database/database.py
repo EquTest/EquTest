@@ -59,6 +59,9 @@ class Database:
 
         return [container[0] for container in self.__cursor__.fetchall()]
 
+    def get_grades(self, student_name: str, is_professor: bool):
+        self.__cursor__.execute("SELECT ")
+
     def add_user(self, login: str, password: str) -> None:
         self.__cursor__.execute(
             f"INSERT INTO student (student_name, student_password) VALUES ('{login}', '{password}');")

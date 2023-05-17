@@ -39,7 +39,7 @@ class StudentWindowUI(QtWidgets.QMainWindow):
         self.header.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.header.setFrameShadow(QtWidgets.QFrame.Raised)
         self.header.setObjectName("header")
-        self.account = QtWidgets.QLabel(self.header)
+        self.account = QtWidgets.QPushButton(self.header)
         self.account.setGeometry(QtCore.QRect(1160, 17, 81, 31))
         self.account.setStyleSheet("font-size: 18px;\n"
                                    "font-family: montserrat;\n"

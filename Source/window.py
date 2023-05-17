@@ -11,10 +11,12 @@ from UI.ProfessorWindow.professor_window_ui import ProfessorWindowUI
 from UI.TestUI.test_ui import TestWidget
 from UI.TestWindow.question_ui import QuestionWidget
 from UI.TestWindow.test_window_ui import TestWindowUI
+from UI.StudentStatisticWindow.student_statistic_ui import StatisticUI
+from UI.StudentStatisticWindow.statistic_widget_ui import TestStatisticWidget
 
 from Source.containers import Test, Question
 from Source.answers import WrongAnswer, RightAnswer
-from Source.users import Student
+from Source.users import Student, Professor
 
 from Database.database import Database
 from Source.constants import PROFESSOR_TYPE, STUDENT_TYPE
@@ -44,6 +46,10 @@ class Window(QtWidgets.QMainWindow):
 
         return f"Window()"
 
+    def open_account(self) -> None:
+        """Used for profiled windows"""
+        self.switch_windows(StatisticWindow())
+
 
 @singleton
 class Menu(Window):
@@ -53,6 +59,7 @@ class Menu(Window):
         self.__ui__ = MenuUI()
         self.__init_UI__()
 
+        self.__login__ = None
         #
         # self._database_.set_sequences_value(True)
 
@@ -70,8 +77,10 @@ class Menu(Window):
         is_professor = self._check_user_(PROFESSOR_TYPE)
 
         if is_student:
+            Student(self.__login__)
             self.switch_windows(self.__student_window__)
         elif is_professor:
+            Professor(self.__login__)
             self.switch_windows(self.__professor_window__)
         else:
             self.__dialogue__.set_enter_data(*self.get_enter_data())
@@ -87,9 +96,12 @@ class Menu(Window):
         user = self._database_.get_users(user_type)
         login, password = self.get_enter_data()
 
-        Student(login)
+        self.__login__ = login
 
         return (login, password,) in user
+
+    def open_account(self) -> None:
+        pass
 
 
 @singleton
@@ -140,6 +152,7 @@ class ProfessorWindow(Window):
 
         self.__ui__.add_question.clicked.connect(self.__add_question__)
         self.__ui__.done.clicked.connect(self.__add_test__)
+        self.__ui__.account.clicked.connect(self.open_account)
 
     def __add_question__(self) -> None:
         test_name = self.__ui__.test_name.text()
@@ -187,6 +200,9 @@ class ProfessorWindow(Window):
     def __check_question__(question_text: str, test: Test) -> bool:
         return any([question_text == question.get_name() for question in test.get_questions()])
 
+    def open_account(self) -> None:
+        self.switch_windows(StatisticWindow())
+
 
 @singleton
 class StudentWindow(Window):
@@ -214,6 +230,7 @@ class StudentWindow(Window):
             self.__layout__.addWidget(test, index // 2, index % 2)
 
         self.__ui__.background.setLayout(self.__layout__)
+        self.__ui__.account.clicked.connect(self.open_account)
 
         self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -273,6 +290,7 @@ class TestWindow(Window):
         self.answer_button.clicked.connect(self.get_result)
         self.__layout__.addWidget(self.answer_button, alignment=Qt.AlignLeft | Qt.AlignBottom)
         self.__ui__.background.setLayout(self.__layout__)
+        self.__ui__.account.clicked.connect(self.open_account)
 
         self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -303,10 +321,23 @@ class TestWindow(Window):
 
 
 @singleton
-class StudentStatisticWindow(Window):
+class StatisticWindow(Window):
     def __init__(self):
         super().__init__()
 
+        self.__ui__ = StatisticUI()
+
+        self.__current_user__ = Student().get_current_student() or Professor().get_current_professor()
+        self.__is_professor__ = bool(Professor().get_current_professor())
+
+        self.__statistic__ = []
+        self.__init_statistic__()
+        self.__init_UI__()
+
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
-        ...
+        self.__ui__.setupUi(self)
+
+    def __init_statistic__(self) -> None:
+        self._database_.get_grades(self.__current_user__, self.__is_professor__)
+        
