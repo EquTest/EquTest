@@ -51,7 +51,7 @@ class Window(QtWidgets.QMainWindow):
 
     def open_account(self) -> None:
         """Used for profiled windows"""
-        self.switch_windows(StatisticWindow())
+        self.switch_windows(StatisticWindow(self))
 
 
 @singleton
@@ -204,7 +204,7 @@ class ProfessorWindow(Window):
         return any([question_text == question.get_name() for question in test.get_questions()])
 
     def open_account(self) -> None:
-        self.switch_windows(StatisticWindow())
+        self.switch_windows(StatisticWindow(self))
 
 
 @singleton
@@ -325,9 +325,10 @@ class TestWindow(Window):
 
 @singleton
 class StatisticWindow(Window):
-    def __init__(self):
+    def __init__(self, caller):
         super().__init__()
 
+        self.__caller__ = caller
         self.__current_user__ = Student().get_current_student() or Professor().get_current_professor()
         self.__is_professor__ = bool(Professor().get_current_professor())
 
@@ -352,6 +353,7 @@ class StatisticWindow(Window):
             self.__layout__.addWidget(statistic, alignment=Qt.AlignLeft | Qt.AlignTop)
 
         self.__ui__.background.setLayout(self.__layout__)
+        self.__ui__.back.clicked.connect(self.go_back)
 
         self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -360,6 +362,9 @@ class StatisticWindow(Window):
 
         self.setCentralWidget(self.__scroll_area__)
         self.setGeometry(320, 180, 1280, 720)
+
+    def go_back(self) -> None:
+        self.switch_windows(self.__caller__)
 
     def __init_statistic__(self) -> None:
         statistics = self._database_.get_grades(self.__current_user__, self.__is_professor__)

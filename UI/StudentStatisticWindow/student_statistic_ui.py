@@ -41,6 +41,16 @@ class StatisticUI(QtWidgets.QMainWindow):
         self.header.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.header.setFrameShadow(QtWidgets.QFrame.Raised)
         self.header.setObjectName("header")
+        self.back = QtWidgets.QPushButton(self.header)
+        self.back.setGeometry(QtCore.QRect(23, 15, 191, 31))
+        self.back.setStyleSheet("background: transparent;\n"
+                                "padding: 0;\n"
+                                "border: 0;"
+                                "\n"
+                                "font-size: 18px;\n"
+                                "font-family: montserrat;\n"
+                                "font-weight: 400;")
+        self.back.setObjectName("right_answers")
         self.test_name = QtWidgets.QLabel(self.background)
         if self.__add_student_names__:
             self.test_name.setGeometry(QtCore.QRect(310, 130, 510, 31))
@@ -92,6 +102,7 @@ class StatisticUI(QtWidgets.QMainWindow):
         self.test_name.setText(_translate("StudentStatistic", "Тест"))
         self.right_answers.setText(_translate("StudentStatistic", "Правильні відповіді"))
         self.percent.setText(_translate("StudentStatistic", "Відсоток"))
+        self.back.setText(_translate("StudentStatistic", "Назад"))
 
         if self.__add_student_names__:
             self.student_name.setText(_translate("TestStatisticWidget", "Ім'я студента"))
