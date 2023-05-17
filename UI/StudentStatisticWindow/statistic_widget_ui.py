@@ -19,6 +19,8 @@ class TestStatisticWidget(QtWidgets.QWidget):
         self.__right_answers__ = right_answers
         self.__percent__ = str(round(right_answers / all_answers, 2) * 100)
 
+        self.setupUi()
+
     def setupUi(self):
         self.setObjectName("TestStatisticWidget")
         self.resize(1280, 60)
@@ -57,6 +59,6 @@ class TestStatisticWidget(QtWidgets.QWidget):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("TestStatisticWidget", "EquTest"))
-        self.percent.setText(_translate("TestStatisticWidget", f"{self.__percent__}"))
+        self.percent.setText(_translate("TestStatisticWidget", f"{self.__percent__}%"))
         self.right_answers.setText(_translate("TestStatisticWidget", f"{self.__right_answers__}"))
         self.test_name.setText(_translate("TestStatisticWidget", f"{self.__test_name__}"))

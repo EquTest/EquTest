@@ -22,7 +22,7 @@ class StatisticUI(QtWidgets.QMainWindow):
         self.background.setStyleSheet(
             "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
             "\n"
-            "padding: 95px 30px;")
+            "padding: 180px 0;")
         self.background.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.background.setFrameShadow(QtWidgets.QFrame.Raised)
         self.background.setObjectName("background")
@@ -38,22 +38,22 @@ class StatisticUI(QtWidgets.QMainWindow):
         self.header.setFrameShadow(QtWidgets.QFrame.Raised)
         self.header.setObjectName("header")
         self.test_name = QtWidgets.QLabel(self.background)
-        self.test_name.setGeometry(QtCore.QRect(80, 130, 730, 31))
+        self.test_name.setGeometry(QtCore.QRect(90, 130, 730, 31))
         self.test_name.setStyleSheet("background: transparent;\n"
                                      "padding: 0;\n"
                                      "\n"
                                      "font-size: 18px;\n"
                                      "font-family: montserrat;\n"
-                                     "font-weight: 400;")
+                                     "font-weight: 500;")
         self.test_name.setObjectName("test_name")
         self.right_answers = QtWidgets.QLabel(self.background)
-        self.right_answers.setGeometry(QtCore.QRect(820, 130, 191, 31))
+        self.right_answers.setGeometry(QtCore.QRect(750, 130, 191, 31))
         self.right_answers.setStyleSheet("background: transparent;\n"
                                          "padding: 0;\n"
                                          "\n"
                                          "font-size: 18px;\n"
                                          "font-family: montserrat;\n"
-                                         "font-weight: 400;")
+                                         "font-weight: 500;")
         self.right_answers.setObjectName("right_answers")
         self.percent = QtWidgets.QLabel(self.background)
         self.percent.setGeometry(QtCore.QRect(1080, 130, 91, 31))
@@ -62,7 +62,7 @@ class StatisticUI(QtWidgets.QMainWindow):
                                    "\n"
                                    "font-size: 18px;\n"
                                    "font-family: montserrat;\n"
-                                   "font-weight: 400;")
+                                   "font-weight: 500;")
         self.percent.setObjectName("percent")
         StudentStatistic.setCentralWidget(self.centralwidget)
 

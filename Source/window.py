@@ -337,7 +337,33 @@ class StatisticWindow(Window):
     def __init_UI__(self) -> None:
         """Implementation for StudentWindow Class"""
         self.__ui__.setupUi(self)
+        self.__ui__.header.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.__ui__.header.setFixedSize(1280, 65)
+
+        self.__scroll_area__ = QtWidgets.QScrollArea()
+
+        self.__layout__ = QtWidgets.QVBoxLayout()
+        self.__layout__.setSpacing(30)
+
+        for statistic in self.__statistic__:
+            self.__layout__.addWidget(statistic, alignment=Qt.AlignLeft | Qt.AlignTop)
+
+        self.__ui__.background.setLayout(self.__layout__)
+
+        self.__scroll_area__.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.__scroll_area__.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.__scroll_area__.setWidgetResizable(True)
+        self.__scroll_area__.setWidget(self.__ui__.background)
+
+        self.setCentralWidget(self.__scroll_area__)
+        self.setGeometry(320, 180, 1280, 720)
 
     def __init_statistic__(self) -> None:
-        self._database_.get_grades(self.__current_user__, self.__is_professor__)
+        statistics = self._database_.get_grades(self.__current_user__, self.__is_professor__)
+
+        for statistic in statistics:
+            statistic_widget = TestStatisticWidget(*statistic)
+            statistic_widget.setFixedSize(1280, 60)
+
+            self.__statistic__.append(statistic_widget)
         

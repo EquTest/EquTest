@@ -59,8 +59,28 @@ class Database:
 
         return [container[0] for container in self.__cursor__.fetchall()]
 
-    def get_grades(self, student_name: str, is_professor: bool):
-        self.__cursor__.execute("SELECT ")
+    def get_grades(self, student_name: str, is_professor: bool) -> list[tuple[Any, ...]]:
+        if is_professor:
+            self.__cursor__.execute("""
+                            SELECT test.test_text, grade.test_grade, COUNT(question.question_id) AS question_count
+                            FROM test
+                            JOIN question ON test.test_id = question.test_id
+                            JOIN grade ON test.test_id = grade.test_id
+                            JOIN student ON grade.student_id = student.student_id
+                            GROUP BY test.test_text, grade.test_grade;
+                        """, (student_name,))
+        else:
+            self.__cursor__.execute("""
+                SELECT test.test_text, grade.test_grade, COUNT(question.question_id) AS question_count
+                FROM test
+                JOIN question ON test.test_id = question.test_id
+                JOIN grade ON test.test_id = grade.test_id
+                JOIN student ON grade.student_id = student.student_id
+                WHERE student.student_name = %s
+                GROUP BY test.test_text, grade.test_grade;
+            """, (student_name,))
+
+        return self.__cursor__.fetchall()
 
     def add_user(self, login: str, password: str) -> None:
         self.__cursor__.execute(
