@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestStatisticWidget</class>
+ <widget class="QWidget" name="TestStatisticWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>60</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EquTest</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: transparent;</string>
+  </property>
+  <widget class="QLabel" name="percent">
+   <property name="geometry">
+    <rect>
+     <x>1080</x>
+     <y>15</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent;
+padding: 0;
+
+font-size: 18px;
+font-family: montserrat;
+font-weight: 400;</string>
+   </property>
+   <property name="text">
+    <string>Відсоток</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="right_answers">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>15</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent;
+padding: 0;
+
+font-size: 18px;
+font-family: montserrat;
+font-weight: 400;</string>
+   </property>
+   <property name="text">
+    <string>Правильні відповіді</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="test_name">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>15</y>
+     <width>721</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent;
+padding: 0;
+
+font-size: 18px;
+font-family: montserrat;
+font-weight: 400;</string>
+   </property>
+   <property name="text">
+    <string>Тест</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

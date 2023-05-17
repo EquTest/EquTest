@@ -35,8 +35,19 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.header.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.header.setFrameShadow(QtWidgets.QFrame.Raised)
         self.header.setObjectName("header")
+        self.account = QtWidgets.QPushButton(self.header)
+        self.account.setGeometry(QtCore.QRect(1160, 17, 81, 31))
+        self.account.setStyleSheet("font-size: 18px;\n"
+                                   "font-family: montserrat;\n"
+                                   "font-weight: 400;\n"
+                                   "\n"
+                                   "background: transparent;\n"
+                                   "\n"
+                                   "border: 0;\n"
+                                   "padding: 0;")
+        self.account.setObjectName("account")
         self.test_name = QtWidgets.QLineEdit(self.background)
-        self.test_name.setGeometry(QtCore.QRect(50, 115, 410, 50))
+        self.test_name.setGeometry(QtCore.QRect(240, 115, 800, 50))
         self.test_name.setStyleSheet("border: 2px solid black;\n"
                                      "border-radius: 17px;\n"
                                      "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
@@ -49,7 +60,7 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.test_name.setText("")
         self.test_name.setObjectName("test_name")
         self.question = QtWidgets.QLineEdit(self.background)
-        self.question.setGeometry(QtCore.QRect(50, 220, 410, 50))
+        self.question.setGeometry(QtCore.QRect(240, 220, 800, 50))
         self.question.setStyleSheet("border: 2px solid black;\n"
                                     "border-radius: 17px;\n"
                                     "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
@@ -62,7 +73,7 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.question.setText("")
         self.question.setObjectName("question")
         self.wrong_answer_one = QtWidgets.QLineEdit(self.background)
-        self.wrong_answer_one.setGeometry(QtCore.QRect(50, 310, 411, 50))
+        self.wrong_answer_one.setGeometry(QtCore.QRect(240, 310, 800, 50))
         self.wrong_answer_one.setStyleSheet("border: 2px solid black;\n"
                                             "border-radius: 17px;\n"
                                             "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
@@ -75,7 +86,7 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.wrong_answer_one.setText("")
         self.wrong_answer_one.setObjectName("wrong_answer_one")
         self.wrong_answer_two = QtWidgets.QLineEdit(self.background)
-        self.wrong_answer_two.setGeometry(QtCore.QRect(50, 380, 411, 50))
+        self.wrong_answer_two.setGeometry(QtCore.QRect(240, 380, 800, 50))
         self.wrong_answer_two.setStyleSheet("border: 2px solid black;\n"
                                             "border-radius: 17px;\n"
                                             "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
@@ -88,7 +99,7 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.wrong_answer_two.setText("")
         self.wrong_answer_two.setObjectName("wrong_answer_two")
         self.wrong_answer_three = QtWidgets.QLineEdit(self.background)
-        self.wrong_answer_three.setGeometry(QtCore.QRect(50, 450, 411, 50))
+        self.wrong_answer_three.setGeometry(QtCore.QRect(240, 450, 800, 50))
         self.wrong_answer_three.setStyleSheet("border: 2px solid black;\n"
                                               "border-radius: 17px;\n"
                                               "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
@@ -101,7 +112,7 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.wrong_answer_three.setText("")
         self.wrong_answer_three.setObjectName("wrong_answer_three")
         self.correct_answer = QtWidgets.QLineEdit(self.background)
-        self.correct_answer.setGeometry(QtCore.QRect(50, 520, 411, 50))
+        self.correct_answer.setGeometry(QtCore.QRect(240, 520, 800, 50))
         self.correct_answer.setStyleSheet("border: 2px solid black;\n"
                                           "border-radius: 17px;\n"
                                           "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
@@ -114,17 +125,17 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.correct_answer.setText("")
         self.correct_answer.setObjectName("correct_answer")
         self.add_question = QtWidgets.QPushButton(self.background)
-        self.add_question.setGeometry(QtCore.QRect(50, 620, 200, 50))
+        self.add_question.setGeometry(QtCore.QRect(240, 620, 250, 50))
         self.add_question.setStyleSheet("border: 2px solid black;\n"
                                         "border-radius: 17px;\n"
-                                        "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
+                                        "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(198, 198, 198, 255), stop:1 rgba(234, 234, 234, 255));\n"
                                         "\n"
                                         "font-size: 18px;\n"
                                         "font-family: montserrat;\n"
                                         "font-weight: 400;")
         self.add_question.setObjectName("add_question")
         self.done = QtWidgets.QPushButton(self.background)
-        self.done.setGeometry(QtCore.QRect(280, 620, 200, 50))
+        self.done.setGeometry(QtCore.QRect(790, 620, 250, 50))
         self.done.setStyleSheet("border: 2px solid black;\n"
                                         "border-radius: 17px;\n"
                                         "background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(225, 112, 111, 255), stop:1 rgba(195, 96, 96, 255));\n"
@@ -149,3 +160,4 @@ class ProfessorWindowUI(QtWidgets.QMainWindow):
         self.correct_answer.setPlaceholderText(_translate("MainWindow", "Правильна відповідь"))
         self.add_question.setText(_translate("MainWindow", "Додати питання"))
         self.done.setText(_translate("MainWindow", "Готово"))
+        self.account.setText(_translate("MainWindow", "Профіль"))
